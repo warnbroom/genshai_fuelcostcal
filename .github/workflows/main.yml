@@ -2,23 +2,25 @@ name: Update Petrolimex Prices
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Chạy tự động lúc 7h sáng giờ VN hàng ngày
-  workflow_dispatch:      # Cho phép bấm nút chạy thủ công trên GitHub
+    - cron: '0 0 * * *' # Chạy lúc 7h sáng VN hàng ngày
+  workflow_dispatch:      # Nút bấm chạy thủ công
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write    # Quan trọng: Cho phép bot ghi đè file vào repo
+      contents: write
 
     steps:
+      # Nâng cấp lên v4 để dùng Node.js mới nhất
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
+      # Nâng cấp lên v5 để tương thích Node.js 24
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.11' # Dùng bản Python mới hơn cho ổn định
 
       - name: Install dependencies
         run: |
@@ -32,4 +34,5 @@ jobs:
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "actions@github.com"
           git add prices.json
+          # Kiểm tra nếu có thay đổi mới commit để tránh lỗi "nothing to commit"
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update prices" && git push)
