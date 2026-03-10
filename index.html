@@ -93,66 +93,72 @@
     </div>
 
     <script>
-        // 1. HÀM TỰ ĐỘNG LẤY GIÁ TỪ FILE JSON TRÊN GITHUB
-        async function loadAutoPrices() {
-            const statusTag = document.getElementById('status-tag');
-            try {
-                // Fetch file prices.json (đảm bảo file này nằm cùng thư mục với index.html)
-                const response = await fetch('prices.json');
-                if (!response.ok) throw new Error('Không tìm thấy file giá');
-                
-                const data = await response.json();
-                const select = document.getElementById('fuel_type');
-                
-                // Cập nhật text và value cho Xăng
+    // 1. HÀM TỰ ĐỘNG LẤY GIÁ TỪ FILE JSON (CẬP NHẬT)
+    async function loadAutoPrices() {
+        const statusTag = document.getElementById('status-tag');
+        try {
+            // Thêm tham số ?t= để trình duyệt không lấy bản cũ trong bộ nhớ đệm
+            const timestamp = new Date().getTime();
+            const response = await fetch(`prices.json?v=${timestamp}`);
+            
+            if (!response.ok) throw new Error('Không tìm thấy file prices.json');
+            
+            const data = await response.json();
+            const select = document.getElementById('fuel_type');
+            
+            // Kiểm tra nếu dữ liệu hợp lệ
+            if (data.RON95 && data.DO) {
+                // Cập nhật Xăng
                 select.options[0].value = data.RON95;
-                select.options[0].text = `Xăng RON 95-V (${data.RON95.toLocaleString()}đ)`;
+                select.options[0].text = `Xăng RON 95-V (${data.RON95.toLocaleString('vi-VN')}đ)`;
                 
-                // Cập nhật text và value cho Dầu
+                // Cập nhật Dầu
                 select.options[1].value = data.DO;
-                select.options[1].text = `Dầu DO 0,001S-V (${data.DO.toLocaleString()}đ)`;
+                select.options[1].text = `Dầu DO 0,001S-V (${data.DO.toLocaleString('vi-VN')}đ)`;
 
-                // Cập nhật trạng thái
                 statusTag.innerText = "● Giá Petrolimex: Đã cập nhật";
-                statusTag.classList.remove('bg-amber-100', 'text-amber-700', 'animate-pulse');
-                statusTag.classList.add('bg-green-100', 'text-green-700');
-                
-                runCalculator(); // Tính toán lại sau khi có giá mới
-            } catch (e) {
-                console.error("Lỗi fetch:", e);
-                statusTag.innerText = "● Đang dùng giá dự phòng";
-                statusTag.classList.add('bg-red-100', 'text-red-700');
+                statusTag.className = "px-4 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full";
+            } else {
+                throw new Error('Dữ liệu JSON trống');
             }
+            
+            runCalculator(); 
+        } catch (e) {
+            console.error("Lỗi tải giá:", e);
+            statusTag.innerText = "● Lỗi kết nối: Dùng giá dự phòng";
+            statusTag.className = "px-4 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full";
+        }
+    }
+
+    // 2. HÀM TÍNH TOÁN
+    function runCalculator() {
+        const a = parseFloat(document.getElementById('input_a').value) || 0;
+        const c = parseFloat(document.getElementById('fuel_type').value) || 0;
+        const d = parseFloat(document.getElementById('input_d').value) || 0;
+        const f = parseFloat(document.getElementById('input_f').value) || 0;
+
+        // b = a * 52884
+        const b = a * 52884;
+        document.getElementById('output_b').innerText = b.toLocaleString('vi-VN') + " VNĐ";
+
+        // e = (d * 9 / 100) * c
+        const e = (d * 9 / 100) * c;
+        document.getElementById('output_e').innerText = e.toLocaleString('vi-VN') + " VNĐ";
+
+        // Kết quả = (b + e) / f
+        let final = 0;
+        if (f > 0) {
+            final = (b + e) / f;
         }
 
-        // 2. HÀM TÍNH TOÁN CHÍNH
-        function runCalculator() {
-            const a = parseFloat(document.getElementById('input_a').value) || 0;
-            const c = parseFloat(document.getElementById('fuel_type').value) || 0;
-            const d = parseFloat(document.getElementById('input_d').value) || 0;
-            const f = parseFloat(document.getElementById('input_f').value) || 0;
+        document.getElementById('final_result').innerText = final.toLocaleString('vi-VN', { 
+            maximumFractionDigits: 1 
+        });
+    }
 
-            // Lương b = a * 52884
-            const b = a * 52884;
-            document.getElementById('output_b').innerText = b.toLocaleString('vi-VN') + " VNĐ";
-
-            // Phí xăng e = (d * 9 / 100) * c
-            const e = (d * 9 / 100) * c;
-            document.getElementById('output_e').innerText = e.toLocaleString('vi-VN') + " VNĐ";
-
-            // Kết quả cuối = (b + e) / f
-            let final = 0;
-            if (f > 0) {
-                final = (b + e) / f;
-            }
-
-            document.getElementById('final_result').innerText = final.toLocaleString('vi-VN', { 
-                maximumFractionDigits: 1 
-            });
-        }
-
-        // Tự động chạy khi mở trang
-        window.onload = loadAutoPrices;
-    </script>
+    // Đảm bảo script chạy sau khi DOM đã tải xong
+    document.addEventListener('DOMContentLoaded', loadAutoPrices);
+</script>
 </body>
 </html>
+
