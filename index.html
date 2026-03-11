@@ -3,25 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Tính Cước Vận Chuyển Tự Động</title>
+    <title>Genshai Mart - Hệ Thống Tính Cước</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        genshaiYellow: '#FFCD1E',
+                        genshaiBlue: '#2C4295',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-slate-50 p-4 md:p-10">
+<body class="bg-[#f0f2f8] p-4 md:p-10">
 
-    <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-slate-100">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <h1 class="text-2xl font-black text-slate-800 uppercase tracking-tight">🚚 Tính Chi Phí Vận Chuyển <span class="text-blue-600">v3.0</span></h1>
-            <div id="status-tag" class="px-4 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded-full animate-pulse">
-                ⏳ Đang tải giá Petrolimex...
+    <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-3xl shadow-2xl border-t-8 border-genshaiYellow">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-slate-100 pb-6">
+            <h1 class="text-2xl font-black text-genshaiBlue uppercase tracking-tight flex items-center gap-3">
+                <span class="bg-genshaiYellow text-genshaiBlue px-3 py-1 rounded-lg">GENSHAI</span> 
+                Vận Chuyển <span class="text-slate-400 font-medium">v3.0</span>
+            </h1>
+            <div id="status-tag" class="px-4 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-full animate-pulse">
+                ⏳ Đang tải giá...
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
             
             <div class="space-y-6">
-                <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
-                    <h3 class="font-bold text-blue-700 mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                <div class="bg-yellow-50/30 p-6 rounded-2xl border border-genshaiYellow/30">
+                    <h3 class="font-bold text-genshaiBlue mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-genshaiYellow" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path></svg>
                         Thông số vận hành
                     </h3>
 
@@ -29,7 +48,7 @@
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Loại nhiên liệu (c)</label>
                             <select id="fuel_type" onchange="runCalculator()" 
-                                    class="w-full p-3 bg-white border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none font-semibold transition-all">
+                                    class="w-full p-3 bg-white border-2 border-slate-200 rounded-xl focus:border-genshaiBlue outline-none font-semibold transition-all">
                                 <option value="27640">Xăng RON 95-V (Đang cập nhật...)</option>
                                 <option value="30530">Dầu DO 0,001S-V (Đang cập nhật...)</option>
                             </select>
@@ -37,20 +56,20 @@
 
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Thời gian giao hàng (giờ)</label>
-                            <input id="input_a" type="number" step="any" oninput="runCalculator()" placeholder="Ví dụ:3"
-                                   class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none font-semibold">
+                            <input id="input_a" type="number" step="any" oninput="runCalculator()" placeholder="3"
+                                   class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-genshaiBlue outline-none font-semibold">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Quãng đường giao hàng (km)</label>
-                            <input id="input_d" type="number" step="any" oninput="runCalculator()" placeholder="Ví dụ:100"
-                                   class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none font-semibold">
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Quãng đường (km)</label>
+                            <input id="input_d" type="number" step="any" oninput="runCalculator()" placeholder="100"
+                                   class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-genshaiBlue outline-none font-semibold">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Trọng lượng hàng hoá/chuyến (kg)</label>
-                            <input id="input_f" type="number" step="any" oninput="runCalculator()" placeholder="Ví dụ:200"
-                                   class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none font-semibold">
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Trọng lượng (kg)</label>
+                            <input id="input_f" type="number" step="any" oninput="runCalculator()" placeholder="200"
+                                   class="w-full p-3 border-2 border-slate-200 rounded-xl focus:border-genshaiBlue outline-none font-semibold">
                         </div>
                     </div>
                 </div>
@@ -58,110 +77,78 @@
 
             <div class="flex flex-col justify-between">
                 <div class="space-y-4">
-                    <h3 class="font-bold text-slate-400 uppercase text-xs tracking-widest">Chi tiết chi phí</h3>
+                    <h3 class="font-bold text-genshaiBlue/40 uppercase text-xs tracking-widest">Phân tích cước phí</h3>
                     
-                    <div class="flex justify-between items-center p-4 bg-slate-100 rounded-xl">
-                        <span class="text-sm font-medium text-slate-600">Lương tài xế mỗi chuyến</span>
-                        <span id="output_b" class="font-bold text-slate-800">0 VNĐ</span>
+                    <div class="flex justify-between items-center p-4 bg-white border-l-4 border-genshaiBlue shadow-sm rounded-r-xl">
+                        <span class="text-sm font-medium text-slate-600">Lương tài xế</span>
+                        <span id="output_b" class="font-bold text-genshaiBlue text-lg">0 VNĐ</span>
                     </div>
 
-                    <div class="flex justify-between items-center p-4 bg-slate-100 rounded-xl">
-                        <span class="text-sm font-medium text-slate-600">Phí nhiên liệu mỗi chuyến</span>
-                        <span id="output_e" class="font-bold text-slate-800">0 VNĐ</span>
+                    <div class="flex justify-between items-center p-4 bg-white border-l-4 border-genshaiBlue shadow-sm rounded-r-xl">
+                        <span class="text-sm font-medium text-slate-600">Phí nhiên liệu</span>
+                        <span id="output_e" class="font-bold text-genshaiBlue text-lg">0 VNĐ</span>
                     </div>
 
-                    <div class="mt-6 p-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl text-white shadow-2xl shadow-blue-200 relative overflow-hidden">
+                    <div class="mt-6 p-8 bg-genshaiBlue rounded-3xl text-white shadow-2xl relative overflow-hidden">
                         <div class="relative z-10">
-                            <p class="text-xs font-bold opacity-80 uppercase tracking-widest mb-2">Tổng chi phí trên mỗi KG</p>
+                            <p class="text-xs font-bold text-genshaiYellow uppercase tracking-widest mb-2">Tổng chi phí mỗi KG</p>
                             <div class="flex items-baseline gap-2">
-                                <span id="final_result" class="text-6xl font-black">0</span>
-                                <span class="text-xl font-bold opacity-80">đ/kg</span>
+                                <span id="final_result" class="text-6xl font-black text-genshaiYellow">0</span>
+                                <span class="text-xl font-bold opacity-80 uppercase">đ/kg</span>
                             </div>
                         </div>
-                        <div class="absolute top-0 right-0 p-4 opacity-10">
-                            <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        <div class="absolute top-0 right-0 p-4 opacity-5">
+                             <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-4.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-8 text-[10px] text-slate-400 italic bg-slate-50 p-4 rounded-lg">
-                    * Ghi chú: Hệ thống tự động đồng bộ giá vùng 1 từ Petrolimex lúc 07:00 AM mỗi ngày. 
-                    Mức tiêu thụ mặc định: 9L/100km. Lương cơ bản: 52.884đ/giờ.
+                <div class="mt-8 text-[10px] text-slate-400 italic bg-genshaiYellow/5 p-4 rounded-lg border border-genshaiYellow/20">
+                    * Ghi chú: Dữ liệu được tính toán dựa trên định mức vận hành tiêu chuẩn của Genshai Mart. Giá nhiên liệu cập nhật tự động.
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-    // 1. HÀM TỰ ĐỘNG LẤY GIÁ TỪ FILE JSON (CẬP NHẬT)
+    // GIỮ NGUYÊN TOÀN BỘ LOGIC CŨ CỦA BẠN
     async function loadAutoPrices() {
         const statusTag = document.getElementById('status-tag');
         try {
-            // Thêm tham số ?t= để trình duyệt không lấy bản cũ trong bộ nhớ đệm
             const timestamp = new Date().getTime();
             const response = await fetch(`prices.json?v=${timestamp}`);
-            
-            if (!response.ok) throw new Error('Không tìm thấy file prices.json');
-            
+            if (!response.ok) throw new Error('ERR');
             const data = await response.json();
             const select = document.getElementById('fuel_type');
-            
-            // Kiểm tra nếu dữ liệu hợp lệ
             if (data.RON95 && data.DO) {
-                // Cập nhật Xăng
                 select.options[0].value = data.RON95;
                 select.options[0].text = `Xăng RON 95-V (${data.RON95.toLocaleString('vi-VN')}đ)`;
-                
-                // Cập nhật Dầu
                 select.options[1].value = data.DO;
                 select.options[1].text = `Dầu DO 0,001S-V (${data.DO.toLocaleString('vi-VN')}đ)`;
-
-                statusTag.innerText = "● Giá Petrolimex: Đã cập nhật";
-                statusTag.className = "px-4 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full";
-            } else {
-                throw new Error('Dữ liệu JSON trống');
+                statusTag.innerText = "● Đã đồng bộ giá Petrolimex";
+                statusTag.className = "px-4 py-1 bg-genshaiYellow text-genshaiBlue text-xs font-bold rounded-full";
             }
-            
             runCalculator(); 
         } catch (e) {
-            console.error("Lỗi tải giá:", e);
-            statusTag.innerText = "● Lỗi kết nối: Dùng giá dự phòng";
+            statusTag.innerText = "● Dùng giá dự phòng";
             statusTag.className = "px-4 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full";
         }
     }
 
-    // 2. HÀM TÍNH TOÁN
     function runCalculator() {
         const a = parseFloat(document.getElementById('input_a').value) || 0;
         const c = parseFloat(document.getElementById('fuel_type').value) || 0;
         const d = parseFloat(document.getElementById('input_d').value) || 0;
         const f = parseFloat(document.getElementById('input_f').value) || 0;
-
-        // b = a * 52884
         const b = a * 52884;
         document.getElementById('output_b').innerText = b.toLocaleString('vi-VN') + " VNĐ";
-
-        // e = (d * 9 / 100) * c
         const e = (d * 9 / 100) * c;
         document.getElementById('output_e').innerText = e.toLocaleString('vi-VN') + " VNĐ";
-
-        // Kết quả = (b + e) / f
         let final = 0;
-        if (f > 0) {
-            final = (b + e) / f;
-        }
-
-        document.getElementById('final_result').innerText = final.toLocaleString('vi-VN', { 
-            maximumFractionDigits: 1 
-        });
+        if (f > 0) final = (b + e) / f;
+        document.getElementById('final_result').innerText = final.toLocaleString('vi-VN', { maximumFractionDigits: 1 });
     }
-
-    // Đảm bảo script chạy sau khi DOM đã tải xong
     document.addEventListener('DOMContentLoaded', loadAutoPrices);
-</script>
+    </script>
 </body>
 </html>
-
-
-
-
