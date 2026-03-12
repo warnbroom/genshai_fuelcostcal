@@ -2,9 +2,10 @@ name: Update Petrolimex Prices
 
 on:
   schedule:
-    - cron: '15 5 * * *' # Chạy lúc 7h sáng VN hàng ngày
+    - cron: '15 0 * * *' # Chạy lúc 7h sáng VN hàng ngày
   workflow_dispatch:      # Nút bấm chạy thủ công
-
+  repository_dispatch:          # Thêm dòng này
+    types: [manual-update]      # Tên sự kiện để kích hoạt
 jobs:
   build:
     runs-on: ubuntu-latest
